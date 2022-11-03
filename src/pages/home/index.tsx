@@ -1,3 +1,24 @@
+import { useUnit } from 'effector-react';
+import { $tasks, taskStatusUpdated } from '~/entities/task/model';
+import { TaskCard } from '~/entities/task/ui/task-card/task-card';
+
 export const HomePage = () => {
-  return <h1 className='text-3xl font-bold text-blue-600'>Home page</h1>;
+  const tasks = useUnit($tasks);
+
+  const onTaskStatusChanged = useUnit(taskStatusUpdated);
+
+  return (
+    <>
+      <h1>Tasks</h1>
+      <div className='flex flex-col gap-2'>
+        {tasks.map((task) => (
+          <TaskCard
+            key={`${task.id}`}
+            {...task}
+            onChange={onTaskStatusChanged}
+          />
+        ))}
+      </div>
+    </>
+  );
 };

@@ -2,7 +2,7 @@ import { radio } from '@material-tailwind/react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 import { Task } from '../../model';
-import { TaskCard } from './task-card';
+import { OnChangeArgs, TaskCard } from './task-card';
 
 export default {
   title: 'Entities/Task/TaskCard',
@@ -11,7 +11,7 @@ export default {
 
 const Story: ComponentStory<typeof TaskCard> = (args) => {
   const [status, setStatus] = useState<Task['status']>('active');
-  const onChange = (_taskId: Task['id'], status: Task['status']) =>
+  const onChange = ([_taskId, status]: OnChangeArgs) =>
     setStatus((_) => status);
 
   return <TaskCard {...args} status={status} onChange={onChange} />;

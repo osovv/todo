@@ -3,8 +3,10 @@ import cn from 'classnames';
 import React, { memo } from 'react';
 import { Task } from '../../model';
 
+export type OnChangeArgs = [Task['id'], Task['status']];
+
 type TaskCardProps = Task & {
-  onChange: (id: Task['id'], status: Task['status']) => void;
+  onChange: (args: OnChangeArgs) => void;
 };
 
 export const TaskCard = memo(
@@ -15,10 +17,9 @@ export const TaskCard = memo(
 
     const handleChange = React.useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        // e.preventDefault();
         const status: Task['status'] =
           e.target.checked === true ? 'completed' : 'active';
-        onChange(id, status);
+        onChange([id, status]);
       },
       [id, onChange],
     );
