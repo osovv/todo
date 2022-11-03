@@ -1,0 +1,36 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.16.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.16.0
+          cache: 'yarn'
+      - name: Install dependencies
+        run: |
+          yarn install
+      - name: Run ESLint
+        run: |
+          yarn lint:check
+      - name: Run Prettier
+        run: |
+          yarn format:check
+      - name: Build
+        run: |
+          yarn build
+      # - name: Run tests
+      #   run: |
+      #     yarn coverage
+      # - name: Upload reports to Codecov
+      #   uses: codecov/codecov-action@v2
+      #   with:
+      #     token: ${{secrets.CODECOV_TOKEN}}
+      #     fail_ci_if_error: true
