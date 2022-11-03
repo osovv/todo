@@ -5,7 +5,7 @@ import { Task } from '../../model';
 
 export type OnChangeArgs = [Task['id'], Task['status']];
 
-type TaskCardProps = Task & {
+export type TaskCardProps = Task & {
   onChange: (args: OnChangeArgs) => void;
 };
 
