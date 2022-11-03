@@ -1,4 +1,4 @@
-import { Card, CardBody, Checkbox, Typography } from '@material-tailwind/react';
+import { Checkbox, Typography } from '@material-tailwind/react';
 import cn from 'classnames';
 import React, { memo } from 'react';
 import { Task } from '../../model';
@@ -25,8 +25,8 @@ export const TaskCard = memo(
     );
 
     return (
-      <Card id={idStr} className='p-2'>
-        <CardBody className='flex gap-2 p-0'>
+      <div id={idStr} className='border-b-2 border-gray-500 p-2'>
+        <div className='flex gap-2 p-0'>
           <div className='flex max-h-6 items-center [&>div>label]:p-0'>
             <Checkbox
               defaultChecked={isChecked}
@@ -35,17 +35,19 @@ export const TaskCard = memo(
               className='[&:before]:h-0 [&:before]:w-0'
             />
           </div>
-          <Typography
-            variant='lead'
-            className={cn('leading-1', { 'line-through': isChecked })}
-          >
-            {title}
-          </Typography>
-        </CardBody>
-        <Typography variant='small' className='truncate text-gray-500'>
-          {description}
-        </Typography>
-      </Card>
+          <div>
+            <Typography
+              variant='lead'
+              className={cn('leading-1', { 'line-through': isChecked })}
+            >
+              {title}
+            </Typography>
+            <Typography variant='small' className='truncate text-gray-500'>
+              {description}
+            </Typography>
+          </div>
+        </div>
+      </div>
     );
   },
 );
