@@ -1,5 +1,5 @@
 import { Button } from '@material-tailwind/react';
-import { useUnit } from 'effector-react';
+import { useUnit } from 'effector-react/scope';
 import { useCallback, useState } from 'react';
 import { TaskEditor, taskModel } from '~/entities/task';
 

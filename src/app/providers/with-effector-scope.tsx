@@ -1,5 +1,5 @@
 import { fork } from 'effector';
-import { Provider } from 'effector-react';
+import { Provider } from 'effector-react/scope';
 
 const scope = fork();
 

@@ -1,4 +1,4 @@
-import { useUnit } from 'effector-react';
+import { useUnit } from 'effector-react/scope';
 import { TaskCard, taskModel } from '~/entities/task';
 
 export const TasksList = () => {
