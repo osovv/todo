@@ -3,27 +3,28 @@ import {
   Card,
   CardBody,
   Input,
+  input,
   Textarea,
 } from '@material-tailwind/react';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Task, TaskDataWithoutStatus } from '../../model';
 
 interface TaskEditorProps {
-  title: Task['title'] | undefined;
-  description: Task['description'] | undefined;
+  title?: Task['title'];
+  description?: Task['description'];
   submitButtonText: string;
   onSubmit: (data: TaskDataWithoutStatus) => void;
   onClose: (_: void) => void;
 }
 
 export const TaskEditor = ({
-  title: initialTitle,
-  description: initialDescription,
+  title: initialTitle = '',
+  description: initialDescription = '',
   submitButtonText,
   onSubmit,
   onClose,
 }: TaskEditorProps) => {
-  const [title, setTitle] = useState(initialTitle || '');
+  const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
 
   const handleClose = useCallback(() => onClose(), [onClose]);
@@ -49,11 +50,48 @@ export const TaskEditor = ({
 
   const isValid = title !== '';
 
+  const titleInput = useRef<HTMLInputElement>(null);
+
+  const inputEl = titleInput.current?.firstChild as
+    | HTMLInputElement
+    | null
+    | undefined;
+
+  useEffect(() => {
+    inputEl?.focus();
+  }, [inputEl]);
+
+  const handleKeydown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleClose();
+      }
+      if (event.key === 'Enter' && isValid) {
+        if (event.ctrlKey) {
+          handleSubmit();
+        }
+        if (document.activeElement === inputEl) {
+          handleSubmit();
+        }
+      }
+    },
+    [handleClose, handleSubmit, isValid, inputEl],
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeydown, false);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown, false);
+    };
+  }, [handleKeydown]);
+
   return (
     <div className='relative'>
       <Card shadow={false} className='border-2 border-gray-400'>
         <CardBody className='p-2'>
           <Input
+            ref={titleInput}
             variant='standard'
             placeholder='Task name'
             className='border-none text-base placeholder:text-base placeholder:text-gray-500'
@@ -70,7 +108,9 @@ export const TaskEditor = ({
         </CardBody>
       </Card>
       <div className='absolute right-0 mt-2 flex gap-2'>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose} className='outlined'>
+          Cancel
+        </Button>
         <Button disabled={!isValid} onClick={handleSubmit}>
           {submitButtonText}
         </Button>
