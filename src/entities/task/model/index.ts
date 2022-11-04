@@ -15,7 +15,7 @@ export interface Task {
 }
 type TaskData = Omit<Task, 'id'>;
 
-type TaskDataWithoutStatus = Omit<TaskData, 'status'>;
+export type TaskDataWithoutStatus = Omit<TaskData, 'status'>;
 
 type TaskDataOptional = Optional<TaskData>;
 
