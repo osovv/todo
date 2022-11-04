@@ -25,7 +25,7 @@ export const TaskCard = memo(
     );
 
     return (
-      <div id={idStr} className='border-b-2 border-gray-500 p-2'>
+      <div id={idStr} className='border-b-2 border-gray-300 p-2'>
         <div className='flex gap-2 p-0'>
           <div className='flex max-h-6 items-center [&>div>label]:p-0'>
             <Checkbox
