@@ -1,11 +1,10 @@
 import { useUnit } from 'effector-react';
-import { $tasks, taskStatusUpdated } from '~/entities/task/model';
-import { TaskCard } from '~/entities/task/ui/task-card/task-card';
+import { TaskCard, taskModel } from '~/entities/task';
 
 export const TasksList = () => {
-  const tasks = useUnit($tasks);
+  const tasks = useUnit(taskModel.$tasks);
 
-  const onTaskStatusChanged = useUnit(taskStatusUpdated);
+  const onTaskStatusChanged = useUnit(taskModel.taskStatusUpdated);
 
   return (
     <div className='flex flex-col gap-2'>
