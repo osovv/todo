@@ -59,6 +59,8 @@ export const $tasksCompleted = $tasks.map((tasks) =>
   tasks.filter((task) => task.status === 'completed'),
 );
 
+export const $tasksIds = $tasks.map((tasks) => tasks.map(({ id }) => id));
+
 $tasks.on(taskCreated, (currentTasks, newTask) => [...currentTasks, newTask]);
 
 $tasks.on(taskUpdated, (currentTasks, [updatedTaskId, updatedTaskData]) =>

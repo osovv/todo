@@ -1,20 +1,30 @@
-import { radio } from '@material-tailwind/react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { useState } from 'react';
-import { Task } from '../../model';
-import { OnChangeArgs, TaskCard } from './task-card';
+import { fork } from 'effector';
+import { Provider } from 'effector-react/scope';
+import { $tasks } from '../../model';
+import { TaskCard } from './task-card';
 
 export default {
   title: 'Entities/Task/TaskCard',
   component: TaskCard,
+  decorators: [
+    (storyFn) => {
+      const scope = fork({
+        values: [
+          [
+            $tasks,
+            [{ id: 1, status: 'active', title: 'Make a leather wallet' }],
+          ],
+        ],
+      });
+
+      return <Provider value={scope}>{storyFn()}</Provider>;
+    },
+  ],
 } as ComponentMeta<typeof TaskCard>;
 
 const Story: ComponentStory<typeof TaskCard> = (args) => {
-  const [status, setStatus] = useState<Task['status']>('active');
-  const onChange = ([_taskId, status]: OnChangeArgs) =>
-    setStatus((_) => status);
-
-  return <TaskCard {...args} status={status} onChange={onChange} />;
+  return <TaskCard {...args} id={1} />;
 };
 
 export const Default = Story.bind({});
