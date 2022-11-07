@@ -29,7 +29,6 @@ export const taskUpdated = createEvent<[TaskId, TaskDataOptional]>();
 export const taskStatusUpdated = taskUpdated.prepend<[TaskId, Task['status']]>(
   ([taskId, taskStatus]) => [taskId, { status: taskStatus }],
 );
-export const taskRemoved = createEvent<TaskId>();
 export const taskCompleted = createEvent<TaskId>();
 
 const initialTasks: Array<Task> = [
@@ -61,10 +60,6 @@ $tasks.on(taskUpdated, (currentTasks, [updatedTaskId, updatedTaskData]) =>
     }
     return task;
   }),
-);
-
-$tasks.on(taskRemoved, (currentTasks, removedTaskId) =>
-  currentTasks.filter((task) => task.id !== removedTaskId),
 );
 
 $tasks.on(taskCompleted, (currentTasks, completedTaskId) =>

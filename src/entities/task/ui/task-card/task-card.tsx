@@ -1,7 +1,7 @@
 import { Checkbox, Typography } from '@material-tailwind/react';
 import cn from 'classnames';
 import { useStoreMap, useUnit } from 'effector-react/scope';
-import React, { memo } from 'react';
+import React from 'react';
 import { $tasks, Task, taskStatusUpdated } from '../../model';
 
 export interface TaskCardProps {
@@ -9,7 +9,7 @@ export interface TaskCardProps {
   ActionsSlot?: React.ReactNode;
 }
 
-export const TaskCard = memo(({ id, ActionsSlot }: TaskCardProps) => {
+export const TaskCard = ({ id, ActionsSlot }: TaskCardProps) => {
   const task = useStoreMap({
     store: $tasks,
     keys: [id],
@@ -52,7 +52,7 @@ export const TaskCard = memo(({ id, ActionsSlot }: TaskCardProps) => {
         <div className='line-clamp-3'>
           <Typography
             variant='lead'
-            className={cn('leading-1 break-all', {
+            className={cn('leading-1 break-normal', {
               'line-through': isChecked,
             })}
           >
@@ -61,11 +61,11 @@ export const TaskCard = memo(({ id, ActionsSlot }: TaskCardProps) => {
           <Typography variant='small' className='truncate text-gray-500'>
             {task.description}
           </Typography>
-          <div className='absolute top-0 right-0 flex gap-2 bg-white opacity-[var(--actions-opacity)]'>
+          <div className='absolute top-0 right-0 flex gap-2 bg-white opacity-[var(--actions-opacity)] [&>button]:focus:[--actions-opacity:100]'>
             {ActionsSlot}
           </div>
         </div>
       </div>
     </div>
   );
-});
+};
