@@ -1,14 +1,11 @@
-import { useUnit } from 'effector-react/scope';
+import { useList } from 'effector-react/scope';
 import { TaskCard, taskModel } from '~/entities/task';
 
 export const TasksList = () => {
-  const tasks = useUnit(taskModel.$tasksIds);
+  const tasks = useList(taskModel.$tasksIds, {
+    keys: [],
+    fn: (taskId) => <TaskCard key={taskId} id={taskId} />,
+  });
 
-  return (
-    <div className='flex flex-col gap-2'>
-      {tasks.map((taskId) => (
-        <TaskCard key={taskId} id={taskId} />
-      ))}
-    </div>
-  );
+  return <div className='flex flex-col gap-2'>{tasks}</div>;
 };
