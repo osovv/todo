@@ -13,15 +13,19 @@ const save = <T>(key: string, value: T) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-export const createLocalStorageStore = <T>(key: string, defaultState: T) => {
+export const createLocalStorageStore = <TData>(
+  key: string,
+  defaultState: TData,
+) => {
   const updateLocalStorage = createEvent();
 
-  const loadedValue = load<T>(key);
+  const loadedValue = load<TData>(key);
 
   const state = loadedValue || defaultState;
 
-  const $store = createStore(state).on(updateLocalStorage, (state) =>
-    save<T>(key, state),
+  const $store = createStore(state, { sid: `store-${key}` }).on(
+    updateLocalStorage,
+    (state) => save<TData>(key, state),
   );
 
   sample({
