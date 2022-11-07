@@ -9,6 +9,7 @@ import {
 import { useStoreMap, useUnit } from 'effector-react';
 import { useCallback, useState } from 'react';
 import { $tasks, Task } from '~/entities/task/model';
+import { getEntityById } from '~/shared/lib/effector';
 import { Icon } from '~/shared/ui';
 import { taskRemoved } from '../model';
 
@@ -30,7 +31,7 @@ export const DeleteTask = ({ id }: DeleteTaskProps) => {
   const task = useStoreMap({
     store: $tasks,
     keys: [id],
-    fn: (tasks, [taskId]) => tasks.find(({ id }) => id === taskId),
+    fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
   });
 
   const [showConfirmation, setShowConfirmation] = useState(false);

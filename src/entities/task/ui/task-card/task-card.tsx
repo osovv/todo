@@ -2,6 +2,7 @@ import { Checkbox, Typography } from '@material-tailwind/react';
 import cn from 'classnames';
 import { useStoreMap, useUnit } from 'effector-react/scope';
 import React from 'react';
+import { getEntityById } from '~/shared/lib/effector';
 import { $tasks, Task, taskStatusUpdated } from '../../model';
 
 export interface TaskCardProps {
@@ -15,7 +16,7 @@ export const TaskCard = ({ id, EditSlot, DeleteSlot }: TaskCardProps) => {
   const task = useStoreMap({
     store: $tasks,
     keys: [id],
-    fn: (tasks, [taskId]) => tasks.find(({ id }) => id === taskId),
+    fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
   });
 
   const onChange = useUnit(taskStatusUpdated);
