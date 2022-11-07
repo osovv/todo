@@ -27,7 +27,7 @@ export const Icon = ({ name, size = '4', className }: IconProps) => {
   const IconComponent = icons[name];
 
   const classname = useMemo(
-    () => cn(className, ICON_SIZE_CLASS_NAME[size]),
+    () => cn('text-gray-600', className, ICON_SIZE_CLASS_NAME[size]),
     [className, size],
   );
 
