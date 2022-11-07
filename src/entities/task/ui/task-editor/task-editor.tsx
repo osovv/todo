@@ -6,6 +6,7 @@ import {
   Textarea,
 } from '@material-tailwind/react';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { Task, TaskDataWithoutStatus } from '../../model';
 
 interface TaskEditorProps {
@@ -60,30 +61,14 @@ export const TaskEditor = ({
     inputEl?.focus();
   }, [inputEl]);
 
-  const handleKeydown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        handleClose();
-      }
-      if (event.key === 'Enter' && isValid) {
-        if (event.ctrlKey) {
-          handleSubmit();
-        }
-        if (document.activeElement === inputEl) {
-          handleSubmit();
-        }
-      }
-    },
-    [handleClose, handleSubmit, isValid, inputEl],
+  useHotkeys('esc', handleClose);
+
+  useHotkeys(
+    'enter',
+    () => isValid && document.activeElement === inputEl && handleSubmit(),
   );
 
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeydown, false);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown, false);
-    };
-  }, [handleKeydown]);
+  useHotkeys('ctrl+enter', () => isValid && handleSubmit());
 
   return (
     <div className='relative'>
