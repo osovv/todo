@@ -18,17 +18,18 @@ type TaskData = Omit<Task, 'id'>;
 
 export type TaskDataWithoutStatus = Omit<TaskData, 'status'>;
 
-type TaskDataOptional = Optional<TaskData>;
+export type TaskDataOptional = Optional<TaskData>;
 
 const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
   ...task,
   ...updatedTaskData,
 });
 
-export const taskUpdated = createEvent<{
-  id: TaskId;
-  data: TaskDataOptional;
-}>();
+export const taskUpdated =
+  createEvent<{
+    id: TaskId;
+    data: TaskDataOptional;
+  }>();
 
 const initialTasks: Array<Task> = [
   {
