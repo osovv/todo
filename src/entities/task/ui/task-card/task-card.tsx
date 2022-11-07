@@ -45,10 +45,12 @@ export const TaskCard = memo(({ id }: TaskCardProps) => {
             className='[&:before]:h-0 [&:before]:w-0'
           />
         </div>
-        <div>
+        <div className='line-clamp-3'>
           <Typography
             variant='lead'
-            className={cn('leading-1', { 'line-through': isChecked })}
+            className={cn('leading-1 break-all', {
+              'line-through': isChecked,
+            })}
           >
             {task.title}
           </Typography>
