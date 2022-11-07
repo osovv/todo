@@ -1,13 +1,14 @@
 import { Typography } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { taskModel } from '~/entities/task';
 import { AddTask } from '~/features/add-task';
+import { ShowCompletedTasks } from '~/features/filter-tasks';
 import { TaskManager } from '~/widgets/task-manager';
 
 const TasksList = () => {
-  const tasksIds = useUnit(taskModel.$tasksIds);
+  const tasksIds = useUnit(taskModel.$visibleTasksIds);
   return (
     <div className='flex flex-col gap-2'>
       {tasksIds.map((taskId) => (
@@ -24,7 +25,12 @@ export const HomePage = () => {
 
   return (
     <>
-      <Typography variant='h4'>Tasks</Typography>
+      <div className='flex w-full justify-between'>
+        <Typography variant='h4' className='my-auto inline'>
+          Tasks
+        </Typography>
+        <ShowCompletedTasks />
+      </div>
       <TasksList />
       <div className='mt-2'>
         <AddTask key={addTaskOpened} />
