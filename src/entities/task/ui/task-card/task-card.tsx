@@ -6,9 +6,10 @@ import { $tasks, Task, taskStatusUpdated } from '../../model';
 
 export interface TaskCardProps {
   id: Task['id'];
+  ActionsSlot?: React.ReactNode;
 }
 
-export const TaskCard = memo(({ id }: TaskCardProps) => {
+export const TaskCard = memo(({ id, ActionsSlot }: TaskCardProps) => {
   const task = useStoreMap({
     store: $tasks,
     keys: [id],
@@ -57,6 +58,7 @@ export const TaskCard = memo(({ id }: TaskCardProps) => {
           <Typography variant='small' className='truncate text-gray-500'>
             {task.description}
           </Typography>
+          <div className='flex gap-2 bg-white '>{ActionsSlot}</div>
         </div>
       </div>
     </div>
