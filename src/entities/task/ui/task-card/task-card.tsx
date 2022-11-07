@@ -6,10 +6,12 @@ import { $tasks, Task, taskStatusUpdated } from '../../model';
 
 export interface TaskCardProps {
   id: Task['id'];
-  ActionsSlot?: React.ReactNode;
+  ToggleSlot?: React.ReactNode;
+  EditSlot?: React.ReactNode;
+  DeleteSlot?: React.ReactNode;
 }
 
-export const TaskCard = ({ id, ActionsSlot }: TaskCardProps) => {
+export const TaskCard = ({ id, EditSlot, DeleteSlot }: TaskCardProps) => {
   const task = useStoreMap({
     store: $tasks,
     keys: [id],
@@ -62,7 +64,8 @@ export const TaskCard = ({ id, ActionsSlot }: TaskCardProps) => {
             {task.description}
           </Typography>
           <div className='absolute top-0 right-0 flex gap-2 bg-white opacity-[var(--actions-opacity)] [&>button]:focus:[--actions-opacity:100]'>
-            {ActionsSlot}
+            {EditSlot}
+            {DeleteSlot}
           </div>
         </div>
       </div>

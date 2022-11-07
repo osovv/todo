@@ -11,12 +11,8 @@ export const TasksList = () => {
         <TaskCard
           key={taskId}
           id={taskId}
-          ActionsSlot={
-            <>
-              <Icon size='6' name='PencilSquareIcon' />
-              <DeleteTask id={taskId} />
-            </>
-          }
+          EditSlot={<Icon size='6' name='PencilSquareIcon' />}
+          DeleteSlot={<DeleteTask id={taskId} />}
         />
       ))}
     </div>
