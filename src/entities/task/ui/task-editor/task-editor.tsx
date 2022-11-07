@@ -53,20 +53,22 @@ export const TaskEditor = ({
 
   const titleInput = useRef<HTMLInputElement>(null);
 
-  const inputEl = titleInput.current?.firstChild as
-    | HTMLInputElement
-    | null
-    | undefined;
-
   useEffect(() => {
+    const inputEl = titleInput.current?.firstChild as
+      | HTMLInputElement
+      | null
+      | undefined;
     inputEl?.focus();
-  }, [inputEl]);
+  }, [titleInput]);
 
-  const ref = useHotkeys('esc', handleClose);
+  const ref = useHotkeys('esc', handleClose, { enableOnFormTags: true });
 
   const ref2 = useHotkeys(
     'enter',
-    () => isValid && document.activeElement === inputEl && handleSubmit(),
+    () =>
+      isValid &&
+      document.activeElement === titleInput.current?.firstChild &&
+      handleSubmit(),
   );
 
   const ref3 = useHotkeys<HTMLDivElement>(
