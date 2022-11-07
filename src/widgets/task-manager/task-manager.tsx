@@ -39,6 +39,7 @@ export const TaskManager = ({ id }: TaskManagerProps) => {
         ToggleStatusSlot={<ToggleTask id={id} />}
         EditSlot={<ToggleMode setMode={setMode} />}
         DeleteSlot={<DeleteTask id={id} />}
+        onEdit={() => setMode('edit')}
       />
     );
   }

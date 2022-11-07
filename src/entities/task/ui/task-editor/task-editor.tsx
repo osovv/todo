@@ -7,6 +7,7 @@ import {
 } from '@material-tailwind/react';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { mergeRefs } from '~/shared/lib/react';
 import { Task, TaskDataWithoutStatus } from '../../model';
 
 interface TaskEditorProps {
@@ -61,17 +62,20 @@ export const TaskEditor = ({
     inputEl?.focus();
   }, [inputEl]);
 
-  useHotkeys('esc', handleClose);
+  const ref = useHotkeys('esc', handleClose);
 
-  useHotkeys(
+  const ref2 = useHotkeys(
     'enter',
     () => isValid && document.activeElement === inputEl && handleSubmit(),
   );
 
-  useHotkeys('ctrl+enter', () => isValid && handleSubmit());
+  const ref3 = useHotkeys<HTMLDivElement>(
+    'ctrl+enter',
+    () => isValid && handleSubmit(),
+  );
 
   return (
-    <div className='relative'>
+    <div className='relative' ref={mergeRefs([ref, ref2, ref3])}>
       <Card shadow={false} className='border-2 border-gray-400'>
         <CardBody className='p-2'>
           <Input
