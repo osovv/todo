@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   Input,
-  input,
   Textarea,
 } from '@material-tailwind/react';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
