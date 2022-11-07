@@ -13,9 +13,11 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.13",
     "@material-tailwind/react": "^1.2.4",
     "atomic-router": "^0.7.1",
     "atomic-router-react": "^0.8.0",
+    "classnames": "^2.3.2",
     "compose-function": "^3.0.3",
     "effector": "^22.3.0",
     "effector-react": "^22.3.4",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
+    "@rollup/plugin-babel": "^6.0.2",
     "@storybook/addon-actions": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",
     "@storybook/addon-interactions": "^6.5.13",
@@ -32,6 +35,8 @@
     "@storybook/builder-vite": "^0.2.5",
     "@storybook/react": "^6.5.13",
     "@storybook/testing-library": "^0.0.13",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@types/classnames": "^2.3.1",
     "@types/compose-function": "^0.0.30",
     "@types/node": "^17.0.34",
     "@types/react": "^18.0.15",
