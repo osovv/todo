@@ -1,7 +1,7 @@
 import { Typography } from '@material-tailwind/react';
 import { useCallback, useEffect, useState } from 'react';
-import { TasksList } from '~/entities/task';
 import { AddTask } from '~/features/add-task';
+import { TasksList } from '~/widgets/tasks-list';
 
 export const HomePage = () => {
   const [addTaskOpened, setAddTaskOpened] = useState(0);
