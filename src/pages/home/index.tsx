@@ -26,7 +26,7 @@ export const HomePage = () => {
   return (
     <>
       <div className='flex w-full justify-between'>
-        <Typography variant='h4' className='inline'>
+        <Typography variant='h4' className='my-auto inline'>
           Tasks
         </Typography>
         <ShowCompletedTasks />
