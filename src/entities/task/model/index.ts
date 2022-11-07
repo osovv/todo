@@ -25,11 +25,10 @@ const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
   ...updatedTaskData,
 });
 
-export const taskUpdated =
-  createEvent<{
-    id: TaskId;
-    data: TaskDataOptional;
-  }>();
+export const taskUpdated = createEvent<{
+  id: TaskId;
+  data: TaskDataOptional;
+}>();
 
 const initialTasks: Array<Task> = [
   {

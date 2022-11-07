@@ -5,9 +5,11 @@ import { getEntityById } from '~/shared/lib/effector';
 
 interface EditTaskProps {
   id: Task['id'];
+  onSubmit: (_: void) => void;
+  onClose: (_: void) => void;
 }
 
-export const EditTask = ({ id }: EditTaskProps) => {
+export const EditTask = ({ id, onClose, onSubmit }: EditTaskProps) => {
   const task = useStoreMap({
     store: taskModel.$tasks,
     keys: [id],
@@ -22,9 +24,8 @@ export const EditTask = ({ id }: EditTaskProps) => {
 
   const handleSubmit = (payload: TaskDataOptional) => {
     updateTask({ id, data: payload });
+    onSubmit();
   };
-
-  const onClose = () => null;
 
   return (
     <TaskEditor
