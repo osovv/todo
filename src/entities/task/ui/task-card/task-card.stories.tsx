@@ -13,7 +13,14 @@ export default {
         values: [
           [
             $tasks,
-            [{ id: 1, status: 'active', title: 'Make a leather wallet' }],
+            [
+              {
+                id: 1,
+                status: 'active',
+                title: 'Make a leather wallet',
+                description: 'Check YouTube for tutorial',
+              },
+            ],
           ],
         ],
       });

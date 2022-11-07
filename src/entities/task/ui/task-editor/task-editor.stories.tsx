@@ -1,4 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { fork } from 'effector';
+import { Provider } from 'effector-react/scope';
 import { TaskEditor } from './task-editor';
 
 export default {
@@ -14,6 +16,13 @@ export default {
   args: {
     submitButtonText: 'Add task',
   },
+  decorators: [
+    (storyFn) => {
+      const scope = fork();
+
+      return <Provider value={scope}>{storyFn()}</Provider>;
+    },
+  ],
 } as ComponentMeta<typeof TaskEditor>;
 
 const Story: ComponentStory<typeof TaskEditor> = (args) => {
