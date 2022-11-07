@@ -1,11 +1,24 @@
-import { createEvent } from 'effector';
+import { combine, createEvent } from 'effector';
 import { createLocalStorageStore } from '~/shared/lib/effector-localstorage';
 import { Id } from '~/shared/lib/id';
 import { Optional } from '~/shared/lib/typescript';
 
-type TaskId = Id;
-
 type TaskStatus = 'active' | 'completed';
+
+export interface Filter {
+  status: TaskStatus | undefined;
+}
+
+const DEFAULT_FILTER: Filter = {
+  status: undefined,
+};
+
+export const $filter = createLocalStorageStore<Filter>(
+  'filter',
+  DEFAULT_FILTER,
+);
+
+type TaskId = Id;
 
 export interface Task {
   id: TaskId;
@@ -50,7 +63,14 @@ export const $tasksCompleted = $tasks.map((tasks) =>
   tasks.filter((task) => task.status === 'completed'),
 );
 
-export const $tasksIds = $tasks.map((tasks) => tasks.map(({ id }) => id));
+const $filteredTasks = combine($tasks, $filter, (tasks, filter) =>
+  tasks.filter(
+    (task) => filter.status === undefined || filter.status === task.status,
+  ),
+);
+export const $visibleTasksIds = $filteredTasks.map((tasks) =>
+  tasks.map(({ id }) => id),
+);
 
 $tasks.on(
   taskUpdated,
