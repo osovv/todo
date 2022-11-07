@@ -1,6 +1,6 @@
 import { createEvent } from 'effector';
 import { createLocalStorageStore } from '~/shared/lib/effector-localstorage';
-import { getId, Id } from '~/shared/lib/id';
+import { Id } from '~/shared/lib/id';
 import { Optional } from '~/shared/lib/typescript';
 
 type TaskId = Id;
@@ -13,6 +13,7 @@ export interface Task {
   title: string;
   description?: string;
 }
+
 type TaskData = Omit<Task, 'id'>;
 
 export type TaskDataWithoutStatus = Omit<TaskData, 'status'>;
@@ -23,15 +24,7 @@ const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
   ...task,
   ...updatedTaskData,
 });
-const taskCreated = createEvent<Task>();
 
-export const taskCreatedByUser = taskCreated.prepend<TaskDataWithoutStatus>(
-  (taskData) => ({
-    id: getId(),
-    status: 'active',
-    ...taskData,
-  }),
-);
 export const taskUpdated = createEvent<[TaskId, TaskDataOptional]>();
 export const taskStatusUpdated = taskUpdated.prepend<[TaskId, Task['status']]>(
   ([taskId, taskStatus]) => [taskId, { status: taskStatus }],
@@ -60,8 +53,6 @@ export const $tasksCompleted = $tasks.map((tasks) =>
 );
 
 export const $tasksIds = $tasks.map((tasks) => tasks.map(({ id }) => id));
-
-$tasks.on(taskCreated, (currentTasks, newTask) => [...currentTasks, newTask]);
 
 $tasks.on(taskUpdated, (currentTasks, [updatedTaskId, updatedTaskData]) =>
   currentTasks.map((task) => {

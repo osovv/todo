@@ -1,7 +1,9 @@
 import { Button } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
 import { useCallback, useState } from 'react';
-import { TaskEditor, taskModel } from '~/entities/task';
+import { TaskEditor } from '~/entities/task';
+import { TaskDataWithoutStatus } from '~/entities/task/model';
+import { taskCreatedByUser } from '../model';
 
 interface AddTaskProps {
   show?: boolean;
@@ -15,9 +17,9 @@ export const AddTask = ({ show = true }: AddTaskProps) => {
 
   const submitButtonText = 'Add task';
 
-  const onSubmit = useUnit(taskModel.taskCreatedByUser);
+  const onSubmit = useUnit(taskCreatedByUser);
 
-  const handleSubmit = (payload: taskModel.TaskDataWithoutStatus) => {
+  const handleSubmit = (payload: TaskDataWithoutStatus) => {
     setEditorKey((key) => key + 1);
     onSubmit(payload);
   };
