@@ -91,12 +91,12 @@ export const TaskEditor = ({
           />
         </CardBody>
       </Card>
-      <div className='absolute right-0 mt-2 flex gap-2'>
-        <Button onClick={handleClose} className='outlined'>
-          Cancel
-        </Button>
+      <div className='mt-2 flex w-full flex-row-reverse gap-2'>
         <Button disabled={!isValid} onClick={handleSubmit}>
           {submitButtonText}
+        </Button>
+        <Button onClick={handleClose} className='outlined'>
+          Cancel
         </Button>
       </div>
     </div>
