@@ -6,7 +6,7 @@ import {
   DialogHeader,
   IconButton,
 } from '@material-tailwind/react';
-import { useStoreMap, useUnit } from 'effector-react';
+import { useStoreMap, useUnit } from 'effector-react/scope';
 import { useCallback, useState } from 'react';
 import { $tasks, Task } from '~/entities/task/model';
 import { getEntityById } from '~/shared/lib/effector';
