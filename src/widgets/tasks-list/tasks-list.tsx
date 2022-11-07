@@ -1,6 +1,7 @@
 import { useUnit } from 'effector-react/scope';
 import { TaskCard, taskModel } from '~/entities/task';
 import { DeleteTask } from '~/features/delete-task/ui';
+import { ToggleTask } from '~/features/toggle-task-status';
 import { Icon } from '~/shared/ui';
 
 export const TasksList = () => {
@@ -11,6 +12,7 @@ export const TasksList = () => {
         <TaskCard
           key={taskId}
           id={taskId}
+          ToggleStatusSlot={<ToggleTask id={taskId} />}
           EditSlot={<Icon size='6' name='PencilSquareIcon' />}
           DeleteSlot={<DeleteTask id={taskId} />}
         />

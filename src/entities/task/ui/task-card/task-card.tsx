@@ -1,42 +1,36 @@
-import { Checkbox, Typography } from '@material-tailwind/react';
+import { Typography } from '@material-tailwind/react';
 import cn from 'classnames';
-import { useStoreMap, useUnit } from 'effector-react/scope';
+import { useStoreMap } from 'effector-react/scope';
 import React from 'react';
 import { getEntityById } from '~/shared/lib/effector';
-import { $tasks, Task, taskStatusUpdated } from '../../model';
+import { $tasks, Task } from '../../model';
 
 export interface TaskCardProps {
   id: Task['id'];
-  ToggleSlot?: React.ReactNode;
+  ToggleStatusSlot?: React.ReactNode;
   EditSlot?: React.ReactNode;
   DeleteSlot?: React.ReactNode;
 }
 
-export const TaskCard = ({ id, EditSlot, DeleteSlot }: TaskCardProps) => {
+export const TaskCard = ({
+  id,
+  ToggleStatusSlot,
+  EditSlot,
+  DeleteSlot,
+}: TaskCardProps) => {
   const task = useStoreMap({
     store: $tasks,
     keys: [id],
     fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
   });
 
-  const onChange = useUnit(taskStatusUpdated);
-
   const idStr = React.useMemo(() => `task-card-${id}`, [id]);
-
-  const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const status: Task['status'] =
-        e.target.checked === true ? 'completed' : 'active';
-      onChange([id, status]);
-    },
-    [id, onChange],
-  );
 
   if (!task) {
     return null;
   }
 
-  const isChecked = task.status === 'completed';
+  const isCompleted = task.status === 'completed';
 
   return (
     <div
@@ -45,18 +39,13 @@ export const TaskCard = ({ id, EditSlot, DeleteSlot }: TaskCardProps) => {
     >
       <div className='relative flex gap-2 p-0'>
         <div className='flex max-h-6 items-center [&>div>label]:p-0'>
-          <Checkbox
-            defaultChecked={isChecked}
-            ripple={false}
-            onChange={handleChange}
-            className='[&:before]:h-0 [&:before]:w-0'
-          />
+          {ToggleStatusSlot}
         </div>
         <div className='line-clamp-3'>
           <Typography
             variant='lead'
             className={cn('leading-1 break-normal', {
-              'line-through': isChecked,
+              'line-through': isCompleted,
             })}
           >
             {task.title}

@@ -25,11 +25,10 @@ const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
   ...updatedTaskData,
 });
 
-export const taskUpdated = createEvent<[TaskId, TaskDataOptional]>();
-export const taskStatusUpdated = taskUpdated.prepend<[TaskId, Task['status']]>(
-  ([taskId, taskStatus]) => [taskId, { status: taskStatus }],
-);
-export const taskCompleted = createEvent<TaskId>();
+export const taskUpdated = createEvent<{
+  id: TaskId;
+  data: TaskDataOptional;
+}>();
 
 const initialTasks: Array<Task> = [
   {
@@ -53,23 +52,13 @@ export const $tasksCompleted = $tasks.map((tasks) =>
 
 export const $tasksIds = $tasks.map((tasks) => tasks.map(({ id }) => id));
 
-$tasks.on(taskUpdated, (currentTasks, [updatedTaskId, updatedTaskData]) =>
-  currentTasks.map((task) => {
-    if (task.id === updatedTaskId) {
-      return updatedTask(task, updatedTaskData);
-    }
-    return task;
-  }),
-);
-
-$tasks.on(taskCompleted, (currentTasks, completedTaskId) =>
-  currentTasks.map((task) => {
-    if (task.id === completedTaskId) {
-      return {
-        ...task,
-        status: 'completed',
-      };
-    }
-    return task;
-  }),
+$tasks.on(
+  taskUpdated,
+  (currentTasks, { id: updatedTaskId, data: updatedTaskData }) =>
+    currentTasks.map((task) => {
+      if (task.id === updatedTaskId) {
+        return updatedTask(task, updatedTaskData);
+      }
+      return task;
+    }),
 );
