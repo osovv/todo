@@ -9,7 +9,7 @@ interface AddTaskProps {
   show?: boolean;
 }
 
-export const AddTask = ({ show = true }: AddTaskProps) => {
+export const AddTask = ({ show = false }: AddTaskProps) => {
   const [showForm, setShowForm] = useState(show);
   const [editorKey, setEditorKey] = useState(0);
 

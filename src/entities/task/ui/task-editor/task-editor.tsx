@@ -6,6 +6,8 @@ import {
   Textarea,
 } from '@material-tailwind/react';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { mergeRefs } from '~/shared/lib/react';
 import { Task, TaskDataWithoutStatus } from '../../model';
 
 interface TaskEditorProps {
@@ -51,42 +53,31 @@ export const TaskEditor = ({
 
   const titleInput = useRef<HTMLInputElement>(null);
 
-  const inputEl = titleInput.current?.firstChild as
-    | HTMLInputElement
-    | null
-    | undefined;
-
   useEffect(() => {
+    const inputEl = titleInput.current?.firstChild as
+      | HTMLInputElement
+      | null
+      | undefined;
     inputEl?.focus();
-  }, [inputEl]);
+  }, [titleInput]);
 
-  const handleKeydown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        handleClose();
-      }
-      if (event.key === 'Enter' && isValid) {
-        if (event.ctrlKey) {
-          handleSubmit();
-        }
-        if (document.activeElement === inputEl) {
-          handleSubmit();
-        }
-      }
-    },
-    [handleClose, handleSubmit, isValid, inputEl],
+  const ref = useHotkeys('esc', handleClose, { enableOnFormTags: true });
+
+  const ref2 = useHotkeys(
+    'enter',
+    () =>
+      isValid &&
+      document.activeElement === titleInput.current?.firstChild &&
+      handleSubmit(),
   );
 
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeydown, false);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown, false);
-    };
-  }, [handleKeydown]);
+  const ref3 = useHotkeys<HTMLDivElement>(
+    'ctrl+enter',
+    () => isValid && handleSubmit(),
+  );
 
   return (
-    <div className='relative'>
+    <div className='relative' ref={mergeRefs([ref, ref2, ref3])}>
       <Card shadow={false} className='border-2 border-gray-400'>
         <CardBody className='p-2'>
           <Input
@@ -106,12 +97,12 @@ export const TaskEditor = ({
           />
         </CardBody>
       </Card>
-      <div className='absolute right-0 mt-2 flex gap-2'>
-        <Button onClick={handleClose} className='outlined'>
-          Cancel
-        </Button>
+      <div className='mt-2 flex w-full flex-row-reverse gap-2'>
         <Button disabled={!isValid} onClick={handleSubmit}>
           {submitButtonText}
+        </Button>
+        <Button onClick={handleClose} className='outlined'>
+          Cancel
         </Button>
       </div>
     </div>
