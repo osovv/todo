@@ -45,13 +45,13 @@ export const taskUpdated = createEvent<{
 
 const initialTasks: Array<Task> = [
   {
-    id: 1,
+    id: '1',
     status: 'active',
     title: 'Complete me',
     description: 'I need to hear from John tomorrow',
   },
   {
-    id: 2,
+    id: '2',
     status: 'completed',
     title: "I'm done",
   },

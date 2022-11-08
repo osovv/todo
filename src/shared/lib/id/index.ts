@@ -1,5 +1,5 @@
-export type Id = number;
+export type Id = string;
 
 export const getId = (): Id => {
-  return Date.now();
+  return Date.now().toString();
 };
