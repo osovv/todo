@@ -27,7 +27,7 @@ const SortableItem = ({ id, children }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
-  const style = {
+  const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
