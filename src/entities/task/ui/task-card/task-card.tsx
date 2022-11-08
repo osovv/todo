@@ -69,7 +69,7 @@ export const TaskCard = ({
           <Typography variant='small' className='truncate text-gray-500'>
             {task.description}
           </Typography>
-          <div className='absolute top-0 right-0 flex gap-2 bg-white opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 group-focus:bg-gray-100 '>
+          <div className='absolute top-0 right-0 flex gap-1 bg-white opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 group-focus:bg-gray-100 '>
             {EditSlot}
             {DeleteSlot}
           </div>
