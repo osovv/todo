@@ -1,10 +1,9 @@
 import { useStoreMap, useUnit } from 'effector-react/scope';
 import { TaskEditor, taskModel } from '~/entities/task';
-import { Task, TaskDataOptional, taskUpdated } from '~/entities/task/model';
 import { getEntityById } from '~/shared/lib/effector';
 
 interface EditTaskProps {
-  id: Task['id'];
+  id: taskModel.Task['id'];
   onSubmit: (_: void) => void;
   onClose: (_: void) => void;
 }
@@ -16,13 +15,13 @@ export const EditTask = ({ id, onClose, onSubmit }: EditTaskProps) => {
     fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
   });
 
-  const updateTask = useUnit(taskUpdated);
+  const updateTask = useUnit(taskModel.taskUpdated);
 
   if (!task) {
     return null;
   }
 
-  const handleSubmit = (payload: TaskDataOptional) => {
+  const handleSubmit = (payload: taskModel.TaskDataOptional) => {
     updateTask({ id, data: payload });
     onSubmit();
   };

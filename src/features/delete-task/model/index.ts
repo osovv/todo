@@ -1,8 +1,8 @@
 import { createEvent } from 'effector';
-import { $tasks, Task } from '~/entities/task/model';
+import { taskModel } from '~/entities/task';
 
-export const taskRemoved = createEvent<Task['id']>();
+export const taskRemoved = createEvent<taskModel.Task['id']>();
 
-$tasks.on(taskRemoved, (currentTasks, removedTaskId) =>
+taskModel.$tasks.on(taskRemoved, (currentTasks, removedTaskId) =>
   currentTasks.filter((task) => task.id !== removedTaskId),
 );

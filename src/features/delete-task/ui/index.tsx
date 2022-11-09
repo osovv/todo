@@ -8,16 +8,16 @@ import {
 } from '@material-tailwind/react';
 import { useStoreMap, useUnit } from 'effector-react/scope';
 import { useCallback, useState } from 'react';
-import { $tasks, Task } from '~/entities/task/model';
+import { taskModel } from '~/entities/task';
 import { getEntityById } from '~/shared/lib/effector';
 import { Icon } from '~/shared/ui';
 import { taskRemoved } from '../model';
 
 interface DeleteTaskProps {
-  id: Task['id'];
+  id: taskModel.Task['id'];
 }
 
-const taskTitleString = (task: Task | undefined): string => {
+const taskTitleString = (task: taskModel.Task | undefined): string => {
   if (task?.title) {
     if (task.title.length >= 50) {
       return task.title.slice(0, 47) + '...';
@@ -29,7 +29,7 @@ const taskTitleString = (task: Task | undefined): string => {
 
 export const DeleteTask = ({ id }: DeleteTaskProps) => {
   const task = useStoreMap({
-    store: $tasks,
+    store: taskModel.$tasks,
     keys: [id],
     fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
   });

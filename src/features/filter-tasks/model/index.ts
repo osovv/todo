@@ -1,9 +1,9 @@
 import { createEvent } from 'effector';
-import { $filter, Filter } from '~/entities/task/model';
+import { taskModel } from '~/entities/task';
 
-export const filterByStatusChanged = createEvent<Filter['status']>();
+export const filterByStatusChanged = createEvent<taskModel.Filter['status']>();
 
-$filter.on(filterByStatusChanged, (currentFilter, status) => ({
+taskModel.$filter.on(filterByStatusChanged, (currentFilter, status) => ({
   ...currentFilter,
   status,
 }));

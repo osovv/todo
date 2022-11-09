@@ -1,15 +1,17 @@
 import { createEvent } from 'effector';
-import { $tasks, Task, TaskDataWithoutStatus } from '~/entities/task/model';
+import { taskModel } from '~/entities/task';
 import { getId } from '~/shared/lib/id';
 
-const taskCreated = createEvent<Task>();
+const taskCreated = createEvent<taskModel.Task>();
 
-export const taskCreatedByUser = taskCreated.prepend<TaskDataWithoutStatus>(
-  (taskData) => ({
+export const taskCreatedByUser =
+  taskCreated.prepend<taskModel.TaskDataWithoutStatus>((taskData) => ({
     id: getId(),
     status: 'active',
     ...taskData,
-  }),
-);
+  }));
 
-$tasks.on(taskCreated, (currentTasks, newTask) => [...currentTasks, newTask]);
+taskModel.$tasks.on(taskCreated, (currentTasks, newTask) => [
+  ...currentTasks,
+  newTask,
+]);

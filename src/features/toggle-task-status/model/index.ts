@@ -1,6 +1,6 @@
-import { Task, taskUpdated } from '~/entities/task/model';
+import { taskModel } from '~/entities/task';
 
-export const taskStatusUpdated = taskUpdated.prepend<{
-  id: Task['id'];
-  status: Task['status'];
+export const taskStatusUpdated = taskModel.taskUpdated.prepend<{
+  id: taskModel.Task['id'];
+  status: taskModel.Task['status'];
 }>(({ id, status }) => ({ id, data: { status } }));

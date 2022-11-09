@@ -2,12 +2,11 @@ import { Checkbox } from '@material-tailwind/react';
 import { useStoreMap, useUnit } from 'effector-react/scope';
 import { useCallback } from 'react';
 import { taskModel } from '~/entities/task';
-import { Task } from '~/entities/task/model';
 import { getEntityById } from '~/shared/lib/effector';
 import { taskStatusUpdated } from '../model';
 
 interface ToggleTaskProps {
-  id: Task['id'];
+  id: taskModel.Task['id'];
 }
 
 export const ToggleTask = ({ id }: ToggleTaskProps) => {
@@ -21,7 +20,7 @@ export const ToggleTask = ({ id }: ToggleTaskProps) => {
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const status: Task['status'] =
+      const status: taskModel.Task['status'] =
         e.target.checked === true ? 'completed' : 'active';
       updateTaskStatus({ id, status });
     },

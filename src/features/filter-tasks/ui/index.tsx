@@ -1,11 +1,11 @@
 import { Checkbox } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
 import React from 'react';
-import { $filter } from '~/entities/task/model';
+import { taskModel } from '~/entities/task';
 import { filterByStatusChanged } from '../model';
 
 export const ShowCompletedTasks = () => {
-  const filterByStatusEnabled = useUnit($filter).status;
+  const filterByStatusEnabled = useUnit(taskModel.$filter).status;
 
   const toggleFilter = useUnit(filterByStatusChanged);
 
