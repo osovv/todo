@@ -3,12 +3,14 @@ import {
   CollisionDetection,
   DndContext,
   DragEndEvent,
+  DraggableAttributes,
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import {
   SortableContext,
   sortableKeyboardCoordinates,
@@ -16,16 +18,18 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import cn from 'classnames';
 import { Id } from '~/shared/lib/id';
 
 interface SortableItemProps {
   id: Id;
-  children: React.ReactNode;
+  children: (
+    attributes: DraggableAttributes,
+    listeners: SyntheticListenerMap | undefined,
+  ) => React.ReactNode;
 }
 
 const SortableItem = ({ id, children }: SortableItemProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, ...rest } =
+  const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
   const style: React.CSSProperties = {
@@ -35,14 +39,8 @@ const SortableItem = ({ id, children }: SortableItemProps) => {
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      tabIndex={-1}
-    >
-      {children}
+    <div ref={setNodeRef} style={style} tabIndex={-1}>
+      {children(attributes, listeners)}
     </div>
   );
 };
@@ -63,7 +61,11 @@ interface SortableListProps<TItem extends { id: Id }> {
   items: Array<TItem>;
   strategy?: Strategy;
   collision?: Collision;
-  componentFn: (item: TItem) => React.ReactNode;
+  componentFn: (
+    attributes: DraggableAttributes,
+    listeners: SyntheticListenerMap | undefined,
+    item: TItem,
+  ) => React.ReactNode;
   itemMoved: (payload: { from: number; to: number }) => void;
 }
 
@@ -111,7 +113,9 @@ export const SortableList = <TItem extends { id: Id }>({
       <SortableContext items={items} strategy={STRATEGIES[strategy]}>
         {items.map((item) => (
           <SortableItem key={item.id} id={item.id}>
-            {componentFn(item)}
+            {(attributes, listeners) =>
+              componentFn(attributes, listeners, item)
+            }
           </SortableItem>
         ))}
       </SortableContext>

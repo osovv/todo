@@ -54,7 +54,7 @@ export const TaskCard = ({
       ref={mergeRefs([ref1, ref2])}
     >
       <div className='relative flex gap-2 p-0'>
-        <div className='flex max-h-6 items-center [&>div>label]:p-0'>
+        <div className='flex h-7 items-center [&>div>label]:p-0'>
           {ToggleStatusSlot}
         </div>
         <div className='line-clamp-3'>

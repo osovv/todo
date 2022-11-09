@@ -1,4 +1,4 @@
-import { Typography } from '@material-tailwind/react';
+import { IconButton, Typography } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -17,7 +17,24 @@ const TasksList = () => {
       <SortableList
         items={tasks}
         itemMoved={taskMoved}
-        componentFn={(task) => <TaskManager id={task.id} />}
+        componentFn={(attributes, listeners, task) => {
+          return (
+            <div className='group relative flex w-full bg-white pb-2'>
+              <div
+                className='absolute -left-6 mt-2 flex h-7 items-center opacity-0 group-hover:opacity-100'
+                {...listeners}
+                {...attributes}
+              >
+                <IconButton variant='text' size='md' className='h-5 w-5  p-0'>
+                  <Icon name='DragIndicatorIcon' size='5' />
+                </IconButton>
+              </div>
+              <div className='flex-grow'>
+                <TaskManager id={task.id} />
+              </div>
+            </div>
+          );
+        }}
       />
     </div>
   );
