@@ -1,4 +1,5 @@
 import { combine, createEvent } from 'effector';
+import { arrayMove } from '~/shared/lib/array';
 import { createLocalStorageStore } from '~/shared/lib/effector-localstorage';
 import { Id } from '~/shared/lib/id';
 import { Optional } from '~/shared/lib/typescript';
@@ -38,10 +39,17 @@ const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
   ...updatedTaskData,
 });
 
-export const taskUpdated = createEvent<{
-  id: TaskId;
-  data: TaskDataOptional;
-}>();
+export const taskUpdated =
+  createEvent<{
+    id: TaskId;
+    data: TaskDataOptional;
+  }>();
+
+export const taskMoved =
+  createEvent<{
+    from: number;
+    to: number;
+  }>();
 
 const initialTasks: Array<Task> = [
   {
@@ -59,17 +67,10 @@ const initialTasks: Array<Task> = [
 
 export const $tasks = createLocalStorageStore('tasks', initialTasks);
 
-export const $tasksCompleted = $tasks.map((tasks) =>
-  tasks.filter((task) => task.status === 'completed'),
-);
-
-const $filteredTasks = combine($tasks, $filter, (tasks, filter) =>
+export const $visibleTasks = combine($tasks, $filter, (tasks, filter) =>
   tasks.filter(
     (task) => filter.status === undefined || filter.status === task.status,
   ),
-);
-export const $visibleTasksIds = $filteredTasks.map((tasks) =>
-  tasks.map(({ id }) => id),
 );
 
 $tasks.on(
@@ -81,4 +82,8 @@ $tasks.on(
       }
       return task;
     }),
+);
+
+$tasks.on(taskMoved, (currentTasks, { from, to }) =>
+  arrayMove(currentTasks, { from, to }),
 );

@@ -5,15 +5,20 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { taskModel } from '~/entities/task';
 import { AddTask } from '~/features/add-task';
 import { ShowCompletedTasks } from '~/features/filter-tasks';
+import { Icon, SortableList } from '~/shared/ui';
 import { TaskManager } from '~/widgets/task-manager';
 
 const TasksList = () => {
-  const tasksIds = useUnit(taskModel.$visibleTasksIds);
+  const tasks = useUnit(taskModel.$visibleTasks);
+  const taskMoved = useUnit(taskModel.taskMoved);
+
   return (
     <div className='flex flex-col gap-2'>
-      {tasksIds.map((taskId) => (
-        <TaskManager key={taskId} id={taskId} />
-      ))}
+      <SortableList
+        items={tasks}
+        itemMoved={taskMoved}
+        componentFn={(task) => <TaskManager id={task.id} />}
+      />
     </div>
   );
 };
