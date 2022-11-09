@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { fork } from 'effector';
 import { Provider } from 'effector-react/scope';
 import { $tasks } from '../../model';
-import { TaskCard } from './task-card';
+import { TaskCard } from './ui';
 
 export default {
   title: 'Entities/Task/TaskCard',

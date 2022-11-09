@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { fork } from 'effector';
 import { Provider } from 'effector-react/scope';
-import { $tasks } from '~/entities/task/model';
+import { taskModel } from '~/entities/task';
 import { TaskManager } from './task-manager';
 
 export default {
@@ -12,7 +12,7 @@ export default {
       const scope = fork({
         values: [
           [
-            $tasks,
+            taskModel.$tasks,
             [
               {
                 id: '1',

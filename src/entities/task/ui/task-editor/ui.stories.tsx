@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { fork } from 'effector';
 import { Provider } from 'effector-react/scope';
-import { TaskEditor } from './task-editor';
+import { TaskEditor } from './ui';
 
 export default {
   title: 'Entities/Task/TaskEditor',
