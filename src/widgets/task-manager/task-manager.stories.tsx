@@ -15,7 +15,7 @@ export default {
             $tasks,
             [
               {
-                id: 1,
+                id: '1',
                 status: 'active',
                 title: 'Make a leather wallet',
                 description: 'Check YouTube for tutorial',
@@ -31,7 +31,7 @@ export default {
 } as ComponentMeta<typeof TaskManager>;
 
 const Story: ComponentStory<typeof TaskManager> = (args) => {
-  return <TaskManager {...args} id={1} />;
+  return <TaskManager {...args} id='1' />;
 };
 
 export const Default = Story.bind({});

@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { AddTask } from './add-task';
+import { AddTask } from './ui';
 
 export default {
   title: 'Features/AddTask',

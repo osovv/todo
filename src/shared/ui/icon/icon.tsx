@@ -2,11 +2,28 @@ import * as HIcons from '@heroicons/react/24/outline';
 import cn from 'classnames';
 import { useMemo } from 'react';
 
+interface DragIndicatorIconProps {
+  className?: string;
+}
+
+const DragIndicatorIcon = ({ className }: DragIndicatorIconProps) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    height='24'
+    viewBox='0 0 24 24'
+    width='24'
+    className={cn('fill-gray-600 hover:fill-black', className)}
+  >
+    <path d='M0 0h24v24H0V0z' fill='none' />
+    <path d='M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z' />
+  </svg>
+);
+
 const { ...icons } = HIcons;
 
 export const allIconNames = Object.keys(icons);
 
-type IconName = keyof typeof icons;
+type IconName = keyof typeof icons | 'DragIndicatorIcon';
 
 type IconSize = '3' | '4' | '5' | '6';
 
@@ -24,10 +41,20 @@ export interface IconProps {
 }
 
 export const Icon = ({ name, size = '4', className }: IconProps) => {
-  const IconComponent = icons[name];
+  let IconComponent;
+  if (name === 'DragIndicatorIcon') {
+    IconComponent = DragIndicatorIcon;
+  } else {
+    IconComponent = icons[name];
+  }
 
   const classname = useMemo(
-    () => cn('text-gray-600', className, ICON_SIZE_CLASS_NAME[size]),
+    () =>
+      cn(
+        'text-gray-600 hover:text-black',
+        className,
+        ICON_SIZE_CLASS_NAME[size],
+      ),
     [className, size],
   );
 

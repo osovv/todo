@@ -1,7 +1,6 @@
 import { IconButton } from '@material-tailwind/react';
 import { useState } from 'react';
-import { TaskCard } from '~/entities/task';
-import { Task } from '~/entities/task/model';
+import { TaskCard, taskModel } from '~/entities/task';
 import { DeleteTask } from '~/features/delete-task';
 import { EditTask } from '~/features/edit-task';
 import { ToggleTask } from '~/features/toggle-task-status';
@@ -22,7 +21,7 @@ const ToggleMode = ({ setMode }: ToggleModeProps) => {
 };
 
 interface TaskManagerProps {
-  id: Task['id'];
+  id: taskModel.Task['id'];
 }
 
 export const TaskManager = ({ id }: TaskManagerProps) => {

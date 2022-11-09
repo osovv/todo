@@ -48,13 +48,13 @@ export const TaskCard = ({
   return (
     <div
       id={idStr}
-      className='group border-b-2 border-gray-300 p-2 focus:bg-gray-100'
+      className='group  bg-white p-2 focus:bg-gray-100'
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       ref={mergeRefs([ref1, ref2])}
     >
       <div className='relative flex gap-2 p-0'>
-        <div className='flex max-h-6 items-center [&>div>label]:p-0'>
+        <div className='flex h-7 items-center [&>div>label]:p-0'>
           {ToggleStatusSlot}
         </div>
         <div className='line-clamp-3'>
@@ -69,7 +69,7 @@ export const TaskCard = ({
           <Typography variant='small' className='truncate text-gray-500'>
             {task.description}
           </Typography>
-          <div className='absolute top-0 right-0 flex gap-2 bg-white opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 group-focus:bg-gray-100 '>
+          <div className='absolute top-0 right-0 flex gap-1 bg-white opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 group-focus:bg-gray-100 '>
             {EditSlot}
             {DeleteSlot}
           </div>
