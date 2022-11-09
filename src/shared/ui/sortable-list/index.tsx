@@ -5,6 +5,7 @@ import {
   DragEndEvent,
   KeyboardSensor,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -15,7 +16,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import cn from 'classnames';
 import { Id } from '~/shared/lib/id';
 
 interface SortableItemProps {
@@ -24,12 +25,13 @@ interface SortableItemProps {
 }
 
 const SortableItem = ({ id, children }: SortableItemProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, transform, transition, ...rest } =
     useSortable({ id });
 
   const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
+    transform: `translate3d(${transform?.x || 0}px, ${transform?.y || 0}px, 0)`,
     transition,
+    touchAction: 'none',
   };
 
   return (
@@ -77,6 +79,7 @@ export const SortableList = <TItem extends { id: Id }>({
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
+    useSensor(TouchSensor),
   );
 
   const getIndex = (id: Id) =>
