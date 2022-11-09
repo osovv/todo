@@ -11,7 +11,7 @@ import { useCallback, useState } from 'react';
 import { taskModel } from '~/entities/task';
 import { getEntityById } from '~/shared/lib/effector';
 import { Icon } from '~/shared/ui';
-import { taskRemoved } from '../model';
+import { taskRemoved } from './model';
 
 interface DeleteTaskProps {
   id: taskModel.Task['id'];

@@ -2,7 +2,7 @@ import { Checkbox } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
 import React from 'react';
 import { taskModel } from '~/entities/task';
-import { filterByStatusChanged } from '../model';
+import { filterByStatusChanged } from './model';
 
 export const ShowCompletedTasks = () => {
   const filterByStatusEnabled = useUnit(taskModel.$filter).status;

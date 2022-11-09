@@ -3,7 +3,7 @@ import { useStoreMap, useUnit } from 'effector-react/scope';
 import { useCallback } from 'react';
 import { taskModel } from '~/entities/task';
 import { getEntityById } from '~/shared/lib/effector';
-import { taskStatusUpdated } from '../model';
+import { taskStatusUpdated } from './model';
 
 interface ToggleTaskProps {
   id: taskModel.Task['id'];

@@ -2,7 +2,7 @@ import { Button } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
 import { useCallback, useState } from 'react';
 import { TaskEditor, taskModel } from '~/entities/task';
-import { taskCreatedByUser } from '../model';
+import { taskCreatedByUser } from './model';
 
 interface AddTaskProps {
   show?: boolean;
