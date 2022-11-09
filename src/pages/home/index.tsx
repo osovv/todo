@@ -13,13 +13,13 @@ const TasksList = () => {
   const taskMoved = useUnit(taskModel.taskMoved);
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col'>
       <SortableList
         items={tasks}
         itemMoved={taskMoved}
         componentFn={(attributes, listeners, task) => {
           return (
-            <div className='group relative flex w-full bg-white pb-2'>
+            <div className='group relative flex w-full border-b-2 border-gray-300 bg-white'>
               <div
                 className='absolute -left-6 mt-2 flex h-7 items-center opacity-0 group-hover:opacity-100'
                 {...listeners}
@@ -29,7 +29,7 @@ const TasksList = () => {
                   <Icon name='DragIndicatorIcon' size='5' />
                 </IconButton>
               </div>
-              <div className='flex-grow'>
+              <div className='flex-grow pb-2'>
                 <TaskManager id={task.id} />
               </div>
             </div>
@@ -53,7 +53,9 @@ export const HomePage = () => {
         </Typography>
         <ShowCompletedTasks />
       </div>
-      <TasksList />
+      <div className='bg-gray-50'>
+        <TasksList />
+      </div>
       <div className='mt-2'>
         <AddTask key={addTaskOpened} />
       </div>

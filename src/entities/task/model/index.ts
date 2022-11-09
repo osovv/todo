@@ -39,17 +39,15 @@ const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
   ...updatedTaskData,
 });
 
-export const taskUpdated =
-  createEvent<{
-    id: TaskId;
-    data: TaskDataOptional;
-  }>();
+export const taskUpdated = createEvent<{
+  id: TaskId;
+  data: TaskDataOptional;
+}>();
 
-export const taskMoved =
-  createEvent<{
-    from: number;
-    to: number;
-  }>();
+export const taskMoved = createEvent<{
+  from: number;
+  to: number;
+}>();
 
 const initialTasks: Array<Task> = [
   {
