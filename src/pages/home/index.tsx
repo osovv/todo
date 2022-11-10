@@ -7,6 +7,7 @@ import { AddTask } from '~/features/add-task';
 import { ShowCompletedTasks } from '~/features/filter-tasks';
 import { Icon, SortableList } from '~/shared/ui';
 import { TaskManager } from '~/widgets/task-manager';
+import { homePageRoute } from './model';
 
 const TasksList = () => {
   const tasks = useUnit(taskModel.$visibleTasks);
@@ -40,7 +41,7 @@ const TasksList = () => {
   );
 };
 
-export const HomePage = () => {
+const HomePage = () => {
   const [addTaskOpened, setAddTaskOpened] = useState(0);
 
   useHotkeys('ctrl+space', () => setAddTaskOpened((count) => count + 1));
@@ -62,3 +63,5 @@ export const HomePage = () => {
     </>
   );
 };
+
+export { HomePage, homePageRoute };

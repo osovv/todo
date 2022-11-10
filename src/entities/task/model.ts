@@ -14,10 +14,8 @@ const DEFAULT_FILTER: Filter = {
   status: undefined,
 };
 
-export const $filter = createLocalStorageStore<Filter>(
-  'filter',
-  DEFAULT_FILTER,
-);
+export const { $store: $filter, getLocalStorageValueFx: getFilterValueFx } =
+  createLocalStorageStore<Filter>('filter', DEFAULT_FILTER);
 
 type TaskId = Id;
 
@@ -63,7 +61,8 @@ const initialTasks: Array<Task> = [
   },
 ];
 
-export const $tasks = createLocalStorageStore('tasks', initialTasks);
+export const { $store: $tasks, getLocalStorageValueFx: getTasksValueFx } =
+  createLocalStorageStore('tasks', initialTasks);
 
 export const $visibleTasks = combine($tasks, $filter, (tasks, filter) =>
   tasks.filter(
