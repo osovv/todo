@@ -1,1 +1,1 @@
-export * from './ui';
+export { TaskCard } from './ui';

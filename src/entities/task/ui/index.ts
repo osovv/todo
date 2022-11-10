@@ -1,2 +1,2 @@
-export * from './task-card';
-export * from './task-editor';
+export { TaskCard } from './task-card';
+export { TaskEditor } from './task-editor';
