@@ -9,8 +9,11 @@ import { Icon, SortableList } from '~/shared/ui';
 import { TaskManager } from '~/widgets/task-manager';
 import { homePageRoute } from './model';
 
-const TasksList = () => {
-  const tasks = useUnit(taskModel.$visibleTasks);
+interface TasksListProps {
+  tasks: taskModel.Task[];
+}
+
+const TasksList = ({ tasks }: TasksListProps) => {
   const taskMoved = useUnit(taskModel.taskMoved);
 
   return (
@@ -41,13 +44,23 @@ const TasksList = () => {
   );
 };
 
+const EmptyTasksInfo = () => {
+  return (
+    <div className='flex max-h-[50%] flex-grow items-center justify-center'>
+      <Typography variant='lead'>What will you accomplish?</Typography>
+    </div>
+  );
+};
+
 const HomePage = () => {
+  const tasks = useUnit(taskModel.$visibleTasks);
+
   const [addTaskOpened, setAddTaskOpened] = useState(0);
 
   useHotkeys('ctrl+space', () => setAddTaskOpened((count) => count + 1));
 
   return (
-    <>
+    <div className='flex h-full flex-col'>
       <div className='flex w-full justify-between'>
         <Typography variant='h4' className='my-auto inline'>
           Tasks
@@ -55,12 +68,13 @@ const HomePage = () => {
         <ShowCompletedTasks />
       </div>
       <div className='bg-gray-50'>
-        <TasksList />
+        <TasksList tasks={tasks} />
       </div>
       <div className='mt-2'>
         <AddTask key={addTaskOpened} />
       </div>
-    </>
+      {tasks.length === 0 ? <EmptyTasksInfo /> : null}
+    </div>
   );
 };
 

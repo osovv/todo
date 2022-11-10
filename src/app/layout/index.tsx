@@ -18,7 +18,9 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className='mx-auto flex h-screen flex-col items-center justify-center p-4 file:container'>
-      <main className='mt-20 mb-auto w-full max-w-screen-md'>{children}</main>
+      <main className='mt-20 mb-auto h-full w-full max-w-screen-md'>
+        {children}
+      </main>
       <footer>
         <div className='flex-none'>
           <Typography variant='small' className='inline'>
