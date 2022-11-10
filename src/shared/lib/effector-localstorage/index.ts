@@ -1,37 +1,39 @@
-import { createEvent, createStore, sample } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
+import localforage from 'localforage';
 
-const load = <T>(key: string): T | undefined => {
-  const source = localStorage.getItem(key);
-
-  if (source) {
-    return JSON.parse(source) as T;
-  }
-  return undefined;
-};
-
-const save = <T>(key: string, value: T) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
+type Key = string;
 
 export const createLocalStorageStore = <TData>(
-  key: string,
+  key: Key,
   defaultState: TData,
 ) => {
-  const updateLocalStorage = createEvent();
-
-  const loadedValue = load<TData>(key);
-
-  const state = loadedValue || defaultState;
-
-  const $store = createStore(state, { sid: `store-${key}` }).on(
-    updateLocalStorage,
-    (state) => save<TData>(key, state),
+  const updateLocalStorageFx = createEffect(async (state: TData) =>
+    localforage.setItem(key, state),
   );
+
+  const getLocalStorageValueFx = createEffect<void, TData | null>(() =>
+    localforage.getItem<TData>(key),
+  );
+
+  const storeCreated = createEvent();
+
+  const $store = createStore<TData>(defaultState, {
+    sid: `store-${key}`,
+  });
 
   sample({
     source: $store,
-    target: updateLocalStorage,
+    target: updateLocalStorageFx,
   });
 
-  return $store;
+  sample({
+    source: storeCreated,
+    target: getLocalStorageValueFx,
+  });
+
+  $store.on(getLocalStorageValueFx.doneData, (_, data) => data || undefined);
+
+  storeCreated();
+
+  return { $store, getLocalStorageValueFx };
 };
