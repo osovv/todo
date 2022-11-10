@@ -1,2 +1,2 @@
-export * from './icon';
-export * from './sortable-list';
+export { Icon } from './icon';
+export { SortableList } from './sortable-list';

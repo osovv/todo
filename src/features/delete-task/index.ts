@@ -1,1 +1,1 @@
-export * from './ui';
+export { DeleteTask } from './ui';

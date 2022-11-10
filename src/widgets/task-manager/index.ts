@@ -1,1 +1,1 @@
-export * from './task-manager';
+export { TaskManager } from './task-manager';

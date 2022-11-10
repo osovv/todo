@@ -1,2 +1,2 @@
 export * as taskModel from './model';
-export * from './ui';
+export { TaskCard, TaskEditor } from './ui';

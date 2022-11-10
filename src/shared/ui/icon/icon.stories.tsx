@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { allIconNames, Icon } from '.';
+import { allIconNames, Icon } from './icon';
 
 export default {
   title: 'UI/Icon',

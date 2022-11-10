@@ -1,1 +1,1 @@
-export * from './ui';
+export { TaskEditor } from './ui';
