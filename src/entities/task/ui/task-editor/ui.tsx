@@ -7,8 +7,11 @@ import {
 } from '@material-tailwind/react';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { Notifier } from '~/shared/lib/notifier';
 import { mergeRefs } from '~/shared/lib/react';
 import { Task, TaskDataWithoutStatus } from '../../model';
+
+const notifier = new Notifier();
 
 interface TaskEditorProps {
   title?: Task['title'];
@@ -27,6 +30,12 @@ export const TaskEditor = ({
 }: TaskEditorProps) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
+
+  useEffect(() => {
+    const unsubscribe = notifier.subscribe(onClose);
+
+    return unsubscribe;
+  }, [onClose]);
 
   const handleClose = useCallback(() => onClose(), [onClose]);
 

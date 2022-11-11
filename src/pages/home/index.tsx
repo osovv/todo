@@ -23,13 +23,13 @@ const TasksList = ({ tasks }: TasksListProps) => {
         itemMoved={taskMoved}
         componentFn={(attributes, listeners, task) => {
           return (
-            <div className='group relative flex w-full border-b-2 border-gray-300 bg-white'>
+            <div className='group relative flex w-full border-b-2 border-gray-300 bg-white pt-1'>
               <div
                 className='absolute -left-6 mt-2 flex h-7 items-center opacity-0 group-hover:opacity-100'
                 {...listeners}
                 {...attributes}
               >
-                <IconButton variant='text' size='md' className='h-5 w-5  p-0'>
+                <IconButton variant='text' size='md' className='h-5 w-5 p-0'>
                   <Icon name='DragIndicatorIcon' size='5' />
                 </IconButton>
               </div>
