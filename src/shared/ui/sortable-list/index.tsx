@@ -4,7 +4,6 @@ import {
   DndContext,
   DragEndEvent,
   DraggableAttributes,
-  KeyboardSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -13,7 +12,6 @@ import {
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import {
   SortableContext,
-  sortableKeyboardCoordinates,
   SortingStrategy,
   useSortable,
   verticalListSortingStrategy,
@@ -76,13 +74,7 @@ export const SortableList = <TItem extends { id: Id }>({
   componentFn,
   itemMoved,
 }: SortableListProps<TItem>) => {
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-    useSensor(TouchSensor),
-  );
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
   const getIndex = (id: Id) =>
     items.findIndex(({ id: itemId }) => itemId === id);

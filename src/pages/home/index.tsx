@@ -1,7 +1,5 @@
 import { IconButton, Typography } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
-import { useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { taskModel } from '~/entities/task';
 import { AddTask } from '~/features/add-task';
 import { ShowCompletedTasks } from '~/features/filter-tasks';
@@ -33,7 +31,7 @@ const TasksList = ({ tasks }: TasksListProps) => {
                   <Icon name='DragIndicatorIcon' size='5' />
                 </IconButton>
               </div>
-              <div className='flex-grow pb-2'>
+              <div className='flex-grow'>
                 <TaskManager id={task.id} />
               </div>
             </div>
@@ -55,10 +53,6 @@ const EmptyTasksInfo = () => {
 const HomePage = () => {
   const tasks = useUnit(taskModel.$visibleTasks);
 
-  const [addTaskOpened, setAddTaskOpened] = useState(0);
-
-  useHotkeys('ctrl+space', () => setAddTaskOpened((count) => count + 1));
-
   return (
     <div className='flex h-full flex-col'>
       <div className='flex w-full justify-between'>
@@ -71,7 +65,7 @@ const HomePage = () => {
         <TasksList tasks={tasks} />
       </div>
       <div className='mt-2'>
-        <AddTask key={addTaskOpened} />
+        <AddTask />
       </div>
       {tasks.length === 0 ? <EmptyTasksInfo /> : null}
     </div>

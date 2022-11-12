@@ -78,19 +78,19 @@ export const TaskEditor = ({
       isValid &&
       document.activeElement === titleInput.current?.firstChild &&
       handleSubmit(),
+    { enableOnFormTags: true },
   );
 
-  const ref3 = useHotkeys<HTMLDivElement>(
-    'ctrl+enter',
-    () => isValid && handleSubmit(),
-  );
+  const ref3 = useHotkeys('ctrl+enter', () => isValid && handleSubmit(), {
+    enableOnFormTags: true,
+  });
 
   return (
-    <div className='relative' ref={mergeRefs([ref, ref2, ref3])}>
+    <div className='relative pb-2' ref={mergeRefs([ref, ref2, ref3])}>
       <Card shadow={false} className='border-2 border-gray-400'>
         <CardBody className='p-2'>
           <Input
-            ref={titleInput}
+            ref={mergeRefs([titleInput, ref, ref2])}
             variant='standard'
             placeholder='Task name'
             className='border-none text-base placeholder:text-base placeholder:text-gray-500'
@@ -98,6 +98,7 @@ export const TaskEditor = ({
             onChange={onChangeTitle}
           />
           <Textarea
+            ref={mergeRefs([ref, ref3])}
             variant='standard'
             placeholder='Description'
             className='border-none text-sm placeholder:text-sm placeholder:text-gray-500'
