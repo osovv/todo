@@ -48,7 +48,7 @@ export const TaskCard = ({
   return (
     <div
       id={idStr}
-      className='group  bg-white p-2 focus:bg-gray-100'
+      className='group bg-white p-2 pb-4 focus:bg-gray-100'
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       ref={mergeRefs([ref1, ref2])}

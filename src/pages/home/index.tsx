@@ -31,7 +31,7 @@ const TasksList = ({ tasks }: TasksListProps) => {
                   <Icon name='DragIndicatorIcon' size='5' />
                 </IconButton>
               </div>
-              <div className='flex-grow pb-2'>
+              <div className='flex-grow'>
                 <TaskManager id={task.id} />
               </div>
             </div>

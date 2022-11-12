@@ -50,7 +50,7 @@ export const DeleteTask = ({ id }: DeleteTaskProps) => {
 
   return (
     <>
-      <Dialog open={showConfirmation} handler={handleConfirmation}>
+      <Dialog size='lg' open={showConfirmation} handler={handleConfirmation}>
         <DialogHeader>
           <Icon size='6' name='InformationCircleIcon' />
         </DialogHeader>
