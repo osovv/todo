@@ -1,15 +1,12 @@
 import { Button } from '@material-tailwind/react';
 import { useUnit } from 'effector-react/scope';
 import { useCallback, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { TaskEditor, taskModel } from '~/entities/task';
 import { taskCreatedByUser } from './model';
 
-interface AddTaskProps {
-  show?: boolean;
-}
-
-export const AddTask = ({ show = false }: AddTaskProps) => {
-  const [showForm, setShowForm] = useState(show);
+export const AddTask = () => {
+  const [showForm, setShowForm] = useState(false);
   const [editorKey, setEditorKey] = useState(0);
 
   const onClose = useCallback(() => setShowForm(false), []);
@@ -22,6 +19,8 @@ export const AddTask = ({ show = false }: AddTaskProps) => {
     setEditorKey((key) => key + 1);
     onSubmit(payload);
   };
+
+  useHotkeys('ctrl+space', () => setShowForm((show) => !show));
 
   if (!showForm) {
     return (
