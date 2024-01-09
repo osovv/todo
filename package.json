@@ -20,6 +20,7 @@
     "@reatom/framework": "^3.4.30",
     "@reatom/npm-react": "^3.8.1",
     "@reatom/persist-web-storage": "^3.2.3",
+    "@tanstack/react-router": "^1.2.2",
     "@types/localforage": "^0.0.34",
     "atomic-router": "^0.7.1",
     "atomic-router-react": "^0.8.0",

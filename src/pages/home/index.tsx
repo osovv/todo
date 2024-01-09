@@ -3,6 +3,7 @@ import { useAction, useAtom } from '@reatom/npm-react';
 import { taskModel } from '~/entities/task';
 import { AddTask } from '~/features/add-task';
 import { ShowCompletedTasks } from '~/features/filter-tasks';
+import { indexRoute } from '~/shared/routes';
 import { Icon, SortableList } from '~/shared/ui';
 import { TaskManager } from '~/widgets/task-manager';
 
@@ -71,4 +72,4 @@ const HomePage = () => {
   );
 };
 
-export { HomePage };
+export const homePageRoute = indexRoute.update({ component: HomePage });
