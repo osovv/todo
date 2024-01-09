@@ -1,13 +1,15 @@
 import { Checkbox } from '@material-tailwind/react';
-import { useUnit } from 'effector-react/scope';
+import { useAction, useAtom } from '@reatom/npm-react';
 import React from 'react';
 import { taskModel } from '~/entities/task';
-import { filterByStatusChanged } from './model';
+import { updateStatusFilter } from './model';
 
 export const ShowCompletedTasks = () => {
-  const filterByStatusEnabled = useUnit(taskModel.$filter).status;
+  const [filterByStatusEnabled] = useAtom((ctx) => {
+    return ctx.spy(taskModel.filterAtom).status;
+  });
 
-  const toggleFilter = useUnit(filterByStatusChanged);
+  const toggleFilter = useAction(updateStatusFilter);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {

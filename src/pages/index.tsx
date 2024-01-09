@@ -1,17 +1,18 @@
-import { Route } from 'atomic-router-react';
-import { routes } from '~/shared/routes';
-import { HomePage, homePageRoute } from './home';
-import { NotFoundPage } from './not-found';
+import { Router, RouterProvider } from '@tanstack/react-router';
+import { rootRoute } from '~/shared/routes';
+import { homePageRoute } from './home';
+import { notFoundRoute } from './not-found';
+
+const routeTree = rootRoute.addChildren([homePageRoute]);
+
+const router = new Router({ routeTree, notFoundRoute });
 
 export const Pages = () => {
-  return (
-    <>
-      <Route route={homePageRoute} view={HomePage} />
-      <Route route={routes.errors.notFound} view={NotFoundPage} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 };
 
-export const routesMap = [{ path: '/', route: routes.home }];
-
-export const notFoundRoute = routes.errors.notFound;
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}

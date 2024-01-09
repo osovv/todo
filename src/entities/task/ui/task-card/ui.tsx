@@ -1,11 +1,11 @@
 import { Typography } from '@material-tailwind/react';
+import { useAtom } from '@reatom/npm-react';
 import cn from 'classnames';
-import { useStoreMap } from 'effector-react/scope';
 import React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { getEntityById } from '~/shared/lib/effector';
+import { getEntityById } from '~/shared/lib/entity';
 import { mergeRefs } from '~/shared/lib/react';
-import { $tasks, Task } from '../../model';
+import { Task, tasksAtom } from '../../model';
 
 export interface TaskCardProps {
   id: Task['id'];
@@ -24,10 +24,10 @@ export const TaskCard = ({
   onDelete,
   onEdit,
 }: TaskCardProps) => {
-  const task = useStoreMap({
-    store: $tasks,
-    keys: [id],
-    fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
+  const [task] = useAtom((ctx) => {
+    const tasks = ctx.spy(tasksAtom);
+
+    return getEntityById(tasks, id);
   });
 
   const idStr = React.useMemo(() => `task-card-${id}`, [id]);
@@ -67,7 +67,7 @@ export const TaskCard = ({
             {task.title}
           </Typography>
           <Typography variant='small' className='truncate text-gray-500'>
-            {task.description}
+            {task.description ?? ''}
           </Typography>
           <div className='absolute top-0 right-0 flex gap-1 bg-white opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 group-focus:bg-gray-100 '>
             {EditSlot}

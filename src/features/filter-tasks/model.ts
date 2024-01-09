@@ -1,9 +1,12 @@
-import { createEvent } from 'effector';
+import { action } from '@reatom/framework';
 import { taskModel } from '~/entities/task';
+import { filterAtom } from '~/entities/task/model';
 
-export const filterByStatusChanged = createEvent<taskModel.Filter['status']>();
+export const updateStatusFilter = action(
+  (ctx, status: taskModel.Filter['status']) => {
+    const filter = ctx.get(taskModel.filterAtom);
 
-taskModel.$filter.on(filterByStatusChanged, (currentFilter, status) => ({
-  ...currentFilter,
-  status,
-}));
+    filterAtom(ctx, { ...filter, status });
+  },
+  'updateStatusFilter',
+);

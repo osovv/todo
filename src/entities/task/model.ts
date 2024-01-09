@@ -1,21 +1,10 @@
-import { combine, createEvent } from 'effector';
+import { action, atom } from '@reatom/framework';
+import { withLocalStorage } from '@reatom/persist-web-storage';
 import { arrayMove } from '~/shared/lib/array';
-import { createLocalStorageStore } from '~/shared/lib/effector-localstorage';
 import { Id } from '~/shared/lib/id';
 import { Optional } from '~/shared/lib/typescript';
 
 type TaskStatus = 'active' | 'completed';
-
-export interface Filter {
-  status: TaskStatus | undefined;
-}
-
-const DEFAULT_FILTER: Filter = {
-  status: undefined,
-};
-
-export const { $store: $filter, getLocalStorageValueFx: getFilterValueFx } =
-  createLocalStorageStore<Filter>('filter', DEFAULT_FILTER);
 
 type TaskId = Id;
 
@@ -32,22 +21,15 @@ export type TaskDataWithoutStatus = Omit<TaskData, 'status'>;
 
 export type TaskDataOptional = Optional<TaskData>;
 
-const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
-  ...task,
-  ...updatedTaskData,
-});
+export interface Filter {
+  status: TaskStatus | undefined;
+}
 
-export const taskUpdated = createEvent<{
-  id: TaskId;
-  data: TaskDataOptional;
-}>();
+const DEFAULT_FILTER: Filter = {
+  status: undefined,
+};
 
-export const taskMoved = createEvent<{
-  from: number;
-  to: number;
-}>();
-
-const initialTasks: Array<Task> = [
+const INITIAL_TASKS: Array<Task> = [
   {
     id: '1',
     status: 'active',
@@ -61,26 +43,50 @@ const initialTasks: Array<Task> = [
   },
 ];
 
-export const { $store: $tasks, getLocalStorageValueFx: getTasksValueFx } =
-  createLocalStorageStore('tasks', initialTasks);
-
-export const $visibleTasks = combine($tasks, $filter, (tasks, filter) =>
-  tasks.filter(
-    (task) => filter.status === undefined || filter.status === task.status,
-  ),
+export const filterAtom = atom(DEFAULT_FILTER, 'filterAtom').pipe(
+  withLocalStorage('filter'),
 );
 
-$tasks.on(
-  taskUpdated,
-  (currentTasks, { id: updatedTaskId, data: updatedTaskData }) =>
-    currentTasks.map((task) => {
-      if (task.id === updatedTaskId) {
-        return updatedTask(task, updatedTaskData);
+export const tasksAtom = atom(INITIAL_TASKS, 'tasksAtom').pipe(
+  withLocalStorage('tasks'),
+);
+
+export const visibleTasksAtom = atom((ctx) => {
+  const tasks = ctx.spy(tasksAtom);
+
+  const filter = ctx.spy(filterAtom);
+
+  return tasks.filter(
+    (task) => filter.status === undefined || filter.status === task.status,
+  );
+}, 'visibleTasksAtom');
+
+const updatedTask = (task: Task, updatedTaskData: TaskDataOptional): Task => ({
+  ...task,
+  ...updatedTaskData,
+});
+
+export const updateTask = action(
+  (ctx, { id, data }: { id: TaskId; data: TaskDataOptional }) => {
+    const oldTasks = ctx.get(tasksAtom);
+
+    const newTasks = oldTasks.map((task) => {
+      if (task.id === id) {
+        return updatedTask(task, data);
       }
       return task;
-    }),
+    });
+
+    tasksAtom(ctx, newTasks);
+  },
+  'updateTask',
 );
 
-$tasks.on(taskMoved, (currentTasks, { from, to }) =>
-  arrayMove(currentTasks, { from, to }),
+export const moveTask = action(
+  (ctx, { from, to }: { from: number; to: number }) => {
+    const oldTasks = ctx.get(tasksAtom);
+    const newTasks = arrayMove(oldTasks, { from, to });
+    tasksAtom(ctx, newTasks);
+  },
+  'moveTask',
 );

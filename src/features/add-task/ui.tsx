@@ -1,9 +1,9 @@
 import { Button } from '@material-tailwind/react';
-import { useUnit } from 'effector-react/scope';
+import { useAction } from '@reatom/npm-react';
 import { useCallback, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { TaskEditor, taskModel } from '~/entities/task';
-import { taskCreatedByUser } from './model';
+import { createTask } from './model';
 
 export const AddTask = () => {
   const [showForm, setShowForm] = useState(false);
@@ -13,7 +13,7 @@ export const AddTask = () => {
 
   const submitButtonText = 'Add task';
 
-  const onSubmit = useUnit(taskCreatedByUser);
+  const onSubmit = useAction(createTask);
 
   const handleSubmit = (payload: taskModel.TaskDataWithoutStatus) => {
     setEditorKey((key) => key + 1);

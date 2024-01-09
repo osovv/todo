@@ -1,7 +1,6 @@
+import { reatomContext, useCreateCtx } from '@reatom/npm-react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { fork } from 'effector';
-import { Provider } from 'effector-react/scope';
-import { $tasks } from '../../model';
+import { taskModel } from '../..';
 import { TaskCard } from './ui';
 
 export default {
@@ -9,23 +8,20 @@ export default {
   component: TaskCard,
   decorators: [
     (storyFn) => {
-      const scope = fork({
-        values: [
-          [
-            $tasks,
-            [
-              {
-                id: '1',
-                status: 'active',
-                title: 'Make a leather wallet',
-                description: 'Check YouTube for tutorial',
-              },
-            ],
-          ],
-        ],
-      });
+      const ctx = useCreateCtx((ctx) => {});
 
-      return <Provider value={scope}>{storyFn()}</Provider>;
+      taskModel.tasksAtom(ctx, [
+        {
+          id: '1',
+          status: 'active',
+          title: 'Make a leather wallet',
+          description: 'Check YouTube for tutorial',
+        },
+      ]);
+
+      return (
+        <reatomContext.Provider value={ctx}>{storyFn()}</reatomContext.Provider>
+      );
     },
   ],
 } as ComponentMeta<typeof TaskCard>;

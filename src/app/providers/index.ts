@@ -1,6 +1,5 @@
 import compose from 'compose-function';
-import { withEffectorScope } from './with-effector-scope';
-import { withRouting } from './with-routing';
+import { withReatomContext } from './with-reatom-context';
 import { withTheme } from './with-theme';
 
-export const withProviders = compose(withTheme, withRouting, withEffectorScope);
+export const withProviders = compose(withTheme, withReatomContext);
