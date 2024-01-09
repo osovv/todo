@@ -10,7 +10,8 @@ module.exports = configure({
     presets.effector(),
   ],
   extend: {
-    extends: ['plugin:storybook/recommended'],
+    plugins: ['@reatom'],
+    extends: ['plugin:storybook/recommended', 'plugin:@reatom/recommended'],
     overrides: [
       {
         files: ['vite.config.ts', 'src/**/*.stories.tsx'],

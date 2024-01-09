@@ -1755,6 +1755,11 @@
     "@reatom/core" "^3.2.0"
     "@reatom/utils" "^3.5.0"
 
+"@reatom/eslint-plugin@^3.4.3":
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/@reatom/eslint-plugin/-/eslint-plugin-3.4.3.tgz#7adf667fe72f74049d5961ad22d7401e5399b6c8"
+  integrity sha512-2LelP4G1FXq+89pmWfKyNLV7GtxmmiHJfl2vac9oJU7lT+eqvmWi4Pd0duAJhWTLxvg9g5S1SLeGQ7tAw/gxeg==
+
 "@reatom/framework@^3.4.30":
   version "3.4.30"
   resolved "https://registry.yarnpkg.com/@reatom/framework/-/framework-3.4.30.tgz#b4e1ae8d4f5a4896b603637f2794005213f10ee3"

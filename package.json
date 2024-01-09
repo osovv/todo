@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
+    "@reatom/eslint-plugin": "^3.4.3",
     "@rollup/plugin-babel": "^6.0.2",
     "@storybook/addon-actions": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",
