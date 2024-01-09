@@ -1,6 +1,5 @@
+import { reatomContext, useCreateCtx } from '@reatom/npm-react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { fork } from 'effector';
-import { Provider } from 'effector-react/scope';
 import { TaskEditor } from './ui';
 
 export default {
@@ -18,9 +17,11 @@ export default {
   },
   decorators: [
     (storyFn) => {
-      const scope = fork();
+      const ctx = useCreateCtx();
 
-      return <Provider value={scope}>{storyFn()}</Provider>;
+      return (
+        <reatomContext.Provider value={ctx}>{storyFn()}</reatomContext.Provider>
+      );
     },
   ],
 } as ComponentMeta<typeof TaskEditor>;

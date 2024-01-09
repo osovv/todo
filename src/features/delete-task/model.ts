@@ -1,8 +1,8 @@
-import { createEvent } from 'effector';
-import { taskModel } from '~/entities/task';
+import { action } from '@reatom/framework';
+import { tasksAtom } from '~/entities/task/model';
 
-export const taskRemoved = createEvent<taskModel.Task['id']>();
+export const removeTask = action((ctx, id) => {
+  const tasks = ctx.get(tasksAtom);
 
-taskModel.$tasks.on(taskRemoved, (currentTasks, removedTaskId) =>
-  currentTasks.filter((task) => task.id !== removedTaskId),
-);
+  return tasks.filter((task) => task.id !== id);
+}, 'removeTask');

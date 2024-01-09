@@ -1,17 +1,18 @@
-import { createEvent } from 'effector';
+import { action } from '@reatom/framework';
 import { taskModel } from '~/entities/task';
+import { TaskDataWithoutStatus } from '~/entities/task/model';
 import { getId } from '~/shared/lib/id';
 
-const taskCreated = createEvent<taskModel.Task>();
-
-export const taskCreatedByUser =
-  taskCreated.prepend<taskModel.TaskDataWithoutStatus>((taskData) => ({
+export const createTask = action((ctx, data: TaskDataWithoutStatus) => {
+  const newTask = {
     id: getId(),
     status: 'active',
-    ...taskData,
-  }));
+    ...data,
+  } as taskModel.Task;
 
-taskModel.$tasks.on(taskCreated, (currentTasks, newTask) => [
-  ...currentTasks,
-  newTask,
-]);
+  const tasks = ctx.get(taskModel.tasksAtom);
+
+  const newTasks = [...tasks, newTask];
+
+  taskModel.tasksAtom(ctx, newTasks);
+}, 'createTask');

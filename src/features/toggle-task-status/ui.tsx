@@ -1,30 +1,29 @@
 import { Checkbox } from '@material-tailwind/react';
-import { useStoreMap, useUnit } from 'effector-react/scope';
+import { useAction, useAtom } from '@reatom/npm-react';
 import { useCallback } from 'react';
 import { taskModel } from '~/entities/task';
-import { getEntityById } from '~/shared/lib/effector';
-import { taskStatusUpdated } from './model';
+import { getEntityById } from '~/shared/lib/entity';
+import { updateTaskStatus } from './model';
 
 interface ToggleTaskProps {
   id: taskModel.Task['id'];
 }
 
 export const ToggleTask = ({ id }: ToggleTaskProps) => {
-  const task = useStoreMap({
-    store: taskModel.$tasks,
-    keys: [id],
-    fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
+  const [task] = useAtom((ctx) => {
+    const tasks = ctx.spy(taskModel.tasksAtom);
+    return getEntityById(tasks, id);
   });
 
-  const updateTaskStatus = useUnit(taskStatusUpdated);
+  const handleTaskStatusUpdate = useAction(updateTaskStatus);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const status: taskModel.Task['status'] =
         e.target.checked === true ? 'completed' : 'active';
-      updateTaskStatus({ id, status });
+      handleTaskStatusUpdate({ id, status });
     },
-    [id, updateTaskStatus],
+    [id, handleTaskStatusUpdate],
   );
 
   if (!task) {

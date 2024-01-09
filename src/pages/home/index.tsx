@@ -1,24 +1,23 @@
 import { IconButton, Typography } from '@material-tailwind/react';
-import { useUnit } from 'effector-react/scope';
+import { useAction, useAtom } from '@reatom/npm-react';
 import { taskModel } from '~/entities/task';
 import { AddTask } from '~/features/add-task';
 import { ShowCompletedTasks } from '~/features/filter-tasks';
 import { Icon, SortableList } from '~/shared/ui';
 import { TaskManager } from '~/widgets/task-manager';
-import { homePageRoute } from './model';
 
 interface TasksListProps {
   tasks: taskModel.Task[];
 }
 
 const TasksList = ({ tasks }: TasksListProps) => {
-  const taskMoved = useUnit(taskModel.taskMoved);
+  const moveTask = useAction(taskModel.moveTask);
 
   return (
     <div className='flex flex-col'>
       <SortableList
         items={tasks}
-        itemMoved={taskMoved}
+        itemMoved={moveTask}
         componentFn={(attributes, listeners, task) => {
           return (
             <div className='group relative flex w-full border-b-2 border-gray-300 bg-white pt-1'>
@@ -51,7 +50,7 @@ const EmptyTasksInfo = () => {
 };
 
 const HomePage = () => {
-  const tasks = useUnit(taskModel.$visibleTasks);
+  const [tasks] = useAtom(taskModel.visibleTasksAtom);
 
   return (
     <div className='flex h-full flex-col'>
@@ -72,4 +71,4 @@ const HomePage = () => {
   );
 };
 
-export { HomePage, homePageRoute };
+export { HomePage };

@@ -6,12 +6,13 @@ import {
   DialogHeader,
   IconButton,
 } from '@material-tailwind/react';
-import { useStoreMap, useUnit } from 'effector-react/scope';
+import { useAction, useAtom } from '@reatom/npm-react';
 import { useCallback, useState } from 'react';
 import { taskModel } from '~/entities/task';
-import { getEntityById } from '~/shared/lib/effector';
+import { tasksAtom } from '~/entities/task/model';
+import { getEntityById } from '~/shared/lib/entity';
 import { Icon } from '~/shared/ui';
-import { taskRemoved } from './model';
+import { removeTask } from './model';
 
 interface DeleteTaskProps {
   id: taskModel.Task['id'];
@@ -28,10 +29,9 @@ const taskTitleString = (task: taskModel.Task | undefined): string => {
 };
 
 export const DeleteTask = ({ id }: DeleteTaskProps) => {
-  const task = useStoreMap({
-    store: taskModel.$tasks,
-    keys: [id],
-    fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
+  const [task] = useAtom((ctx) => {
+    const tasks = ctx.spy(tasksAtom);
+    return getEntityById(tasks, id);
   });
 
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -41,10 +41,10 @@ export const DeleteTask = ({ id }: DeleteTaskProps) => {
     [],
   );
 
-  const removeTask = useUnit(taskRemoved);
+  const onRemove = useAction(removeTask);
 
   const onSubmit = () => {
-    removeTask(id);
+    onRemove(id);
     handleConfirmation();
   };
 

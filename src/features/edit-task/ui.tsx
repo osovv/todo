@@ -1,6 +1,7 @@
-import { useStoreMap, useUnit } from 'effector-react/scope';
+import { useAction, useAtom } from '@reatom/npm-react';
 import { TaskEditor, taskModel } from '~/entities/task';
-import { getEntityById } from '~/shared/lib/effector';
+import { tasksAtom } from '~/entities/task/model';
+import { getEntityById } from '~/shared/lib/entity';
 
 interface EditTaskProps {
   id: taskModel.Task['id'];
@@ -9,13 +10,13 @@ interface EditTaskProps {
 }
 
 export const EditTask = ({ id, onClose, onSubmit }: EditTaskProps) => {
-  const task = useStoreMap({
-    store: taskModel.$tasks,
-    keys: [id],
-    fn: (tasks, [taskId]) => getEntityById(tasks, taskId),
+  const [task] = useAtom((ctx) => {
+    const tasks = ctx.spy(tasksAtom);
+
+    return getEntityById(tasks, id);
   });
 
-  const updateTask = useUnit(taskModel.taskUpdated);
+  const updateTask = useAction(taskModel.updateTask);
 
   if (!task) {
     return null;

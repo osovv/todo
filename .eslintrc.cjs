@@ -7,7 +7,6 @@ module.exports = configure({
     presets.prettier(),
     presets.typescript(),
     presets.react({ newJSXTransform: true }),
-    presets.effector(),
   ],
   extend: {
     plugins: ['@reatom'],
